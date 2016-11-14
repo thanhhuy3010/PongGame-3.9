@@ -151,7 +151,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 				// is it going to miss the paddle?
 				if (nextBallTop > playerOneBottom || nextBallBottom < playerOneTop) {
 
-					playerOneScore++; // sua playerOneScore thanh playerTwoScore
+					playerTwoScore++; // sua playerOneScore thanh playerTwoScore
 
 					// Player 2 Win, restart the game
 					if (playerTwoScore == 3) { 
@@ -238,7 +238,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			g.setFont(new Font(Font.DIALOG, Font.BOLD, 36));
 			g.drawString(String.valueOf(playerOneScore), 120, 100); // Player 1 // Chinh lai toa do ghi diem 100 thanh 120
 							//sua lai										// score
-			g.drawString(String.valueOf(playerOneScore), 350, 100); // Player 2 // Sua playerOneScore thanh playerTwoScore
+			g.drawString(String.valueOf(playerTwoScore), 350, 100); // Player 2 // Sua playerOneScore thanh playerTwoScore
 																	// score    // Va chinh lai toa do ghi diem 400 thanh 350
 
 			// draw the ball
