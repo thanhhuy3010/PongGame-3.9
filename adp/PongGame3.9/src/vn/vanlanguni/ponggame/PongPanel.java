@@ -50,15 +50,15 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	private boolean sPressed;
 
 	/** The ball: position, diameter */
-	private int ballX = 250;// sua 200 thanh 250
-	private int ballY = 250;// sua 200 thanh 250
+	private int ballX = 270;// sua 200 thanh 270
+	private int ballY = 270;// sua 200 thanh 270
 	private int diameter = 20;
-	private int ballDeltaX = -1;
+	private int ballDeltaX = -2;
 	private int ballDeltaY = 3;
 
 	/** Player 1's paddle: position and size */
 	private int playerOneX = 0;
-	private int playerOneY = 250;
+	private int playerOneY = 280;
 	private int playerOneWidth = 10;
 	private int playerOneHeight = 60; // sua 50 thanh 60
 
@@ -158,8 +158,8 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 						playing = false;
 						gameOver = true;
 					}
-					ballX = 250;
-					ballY = 250;
+					ballX = 220;
+					ballY = 220;
 				} else {
 					// If the ball hitting the paddle, it will bounce back
 					// FIXME Something wrong here
@@ -175,7 +175,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 					playerOneScore++;
 
 					// Player 1 Win, restart the game
-					if (playerOneScore == 3) {
+					if (playerOneScore == 8) {
 						playing = false;
 						gameOver = true;
 					}
