@@ -128,8 +128,8 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			int nextBallLeft = ballX + ballDeltaX;
 			int nextBallRight = ballX + diameter + ballDeltaX;
 			// FIXME Something not quite right here
-			int nextBallTop = ballY + ballDeltaY;   /// Chinh bong chay
-			int nextBallBottom = ballY + diameter + ballDeltaY;
+			int nextBallTop = ballX + ballDeltaX;  
+			int nextBallBottom = ballX + diameter + ballDeltaX;
 
 			// Player 1's paddle position
 			int playerOneRight = playerOneX + playerOneWidth;
