@@ -20,11 +20,15 @@ package vn.vanlanguni.ponggame;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Point;
+import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
+import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -39,6 +43,24 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	private boolean showTitleScreen = true;
 	private boolean playing;
 	private boolean gameOver;
+	
+	// button play
+
+		Point pPlay, pSetting, pBack, pMenu, pSa, pChangeBall, pchangebackground, pNames,
+				pchangebutton;
+		ImageIcon imgbtnchangebutton, imgbtnPlay, imgbtnSetting, imgbtnBack, imgbgP,
+				imgbtnMenu, imgbtnSa, imgbtnChangeBall, imgbtnchangebackground,
+				imgbtnNames;
+		int rPlay, rSetting, rBack, rMenu, rSa, rChangeBall, rchangebackground, rNames;
+		String nameP, nameS, nameB, nameChangeBall1, namechangebackground1, namechangebutton1,
+				nameNames1, namePlayer1, namePlayer2, nameBgpl, namePdpl1,
+				namePdpl2, nameBallSetting, nameMenuGo, nameRestartGo;
+		Rectangle rectChangeball, rectchangebackground, rectchangebutton, rectNames,
+				rectMenugo, rectRestartgo;
+		boolean intersec, intersec1, intersec2, intersec3, intersec4;
+		int wChangeball, hChangeball, wchangebackground, hchangebackground, wchangebutton, hchangebutton,
+				wNames, hNames;
+		
 
 	/** Background. */
 	private Color backgroundColor = Color.BLACK;
@@ -78,6 +100,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	/** Construct a PongPanel. */
 	public PongPanel() {
 		setBackground(backgroundColor);
+		
 
 		// listen to key presses
 		setFocusable(true);
@@ -206,6 +229,24 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 		super.paintComponent(g);
 
 		if (showTitleScreen) {
+			imgbtnPlay = new ImageIcon(nameP);
+			imgbtnSetting = new ImageIcon(nameS);
+			Image imgbpong = new ImageIcon("changebackground/background.jpg").getImage();
+			// Draw game title and start message
+			g.setFont(new Font(Font.DIALOG, Font.BOLD, 36));
+			// g.drawString("Pong Game", 130, 100);
+			g.drawImage(imgbpong, 0, 0, 500, 500, null);
+
+			g.drawImage(imgbtnPlay.getImage(), pPlay.x - rPlay,
+					pPlay.y - rPlay, rPlay * 2, rPlay * 2, null);
+			g.drawImage(imgbtnSetting.getImage(), pSetting.x - rSetting,
+					pSetting.y - rSetting, rSetting * 2, rSetting * 2, null);
+			if (intersec4) {
+				g.setColor(Color.white);
+				g.setFont(new Font(Font.SANS_SERIF, Font.TRUETYPE_FONT, 20));
+				g.drawString("Setting", pSetting.x + 30, pSetting.y + 10);
+			}
+			
 
 			/* Show welcome screen */
 
