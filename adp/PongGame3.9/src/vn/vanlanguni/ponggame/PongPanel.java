@@ -20,15 +20,11 @@ package vn.vanlanguni.ponggame;
 import java.awt.Color;
 import java.awt.Font;
 import java.awt.Graphics;
-import java.awt.Image;
-import java.awt.Point;
-import java.awt.Rectangle;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 
-import javax.swing.ImageIcon;
 import javax.swing.JPanel;
 import javax.swing.Timer;
 
@@ -43,24 +39,6 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	private boolean showTitleScreen = true;
 	private boolean playing;
 	private boolean gameOver;
-	
-	// button play
-
-		Point pPlay, pSetting, pBack, pMenu, pSa, pChangeBall, pchangebackground, pNames,
-				pchangebutton;
-		ImageIcon imgbtnchangebutton, imgbtnPlay, imgbtnSetting, imgbtnBack, imgbgP,
-				imgbtnMenu, imgbtnSa, imgbtnChangeBall, imgbtnchangebackground,
-				imgbtnNames;
-		int rPlay, rSetting, rBack, rMenu, rSa, rChangeBall, rchangebackground, rNames;
-		String nameP, nameS, nameB, nameChangeBall1, namechangebackground1, namechangebutton1,
-				nameNames1, namePlayer1, namePlayer2, nameBgpl, namePdpl1,
-				namePdpl2, nameBallSetting, nameMenuGo, nameRestartGo;
-		Rectangle rectChangeball, rectchangebackground, rectchangebutton, rectNames,
-				rectMenugo, rectRestartgo;
-		boolean intersec, intersec1, intersec2, intersec3, intersec4;
-		int wChangeball, hChangeball, wchangebackground, hchangebackground, wchangebutton, hchangebutton,
-				wNames, hNames;
-		
 
 	/** Background. */
 	private Color backgroundColor = Color.BLACK;
@@ -96,11 +74,12 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	/** Player score, show on upper left and right. */
 	private int playerOneScore;
 	private int playerTwoScore;
+	// goi ham dialogPlay
+	private ChangeNamePlayer dialogPlayer = new ChangeNamePlayer();
 
 	/** Construct a PongPanel. */
 	public PongPanel() {
 		setBackground(backgroundColor);
-		
 
 		// listen to key presses
 		setFocusable(true);
@@ -209,7 +188,7 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 					// If the ball hitting the paddle, it will bounce back
 					// FIXME Something wrong here
 					//ngoc son sua 
-					ballDeltaX *= -2;// sua cho bong cham vao thanh ngang se voi lai
+					ballDeltaX *= -1;// sua cho bong cham vao thanh ngang se voi lai
 				
 				}
 			}
@@ -229,24 +208,6 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 		super.paintComponent(g);
 
 		if (showTitleScreen) {
-			imgbtnPlay = new ImageIcon(nameP);
-			imgbtnSetting = new ImageIcon(nameS);
-			Image imgbpong = new ImageIcon("changebackground/background.jpg").getImage();
-			// Draw game title and start message
-			g.setFont(new Font(Font.DIALOG, Font.BOLD, 36));
-			// g.drawString("Pong Game", 130, 100);
-			g.drawImage(imgbpong, 0, 0, 500, 500, null);
-
-			g.drawImage(imgbtnPlay.getImage(), pPlay.x - rPlay,
-					pPlay.y - rPlay, rPlay * 2, rPlay * 2, null);
-			g.drawImage(imgbtnSetting.getImage(), pSetting.x - rSetting,
-					pSetting.y - rSetting, rSetting * 2, rSetting * 2, null);
-			if (intersec4) {
-				g.setColor(Color.white);
-				g.setFont(new Font(Font.SANS_SERIF, Font.TRUETYPE_FONT, 20));
-				g.drawString("Setting", pSetting.x + 30, pSetting.y + 10);
-			}
-			
 
 			/* Show welcome screen */
 
@@ -273,12 +234,18 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			// draw "goal lines" on each side
 			g.drawLine(playerOneRight, 0, playerOneRight, getHeight());
 			g.drawLine(playerTwoLeft, 0, playerTwoLeft, getHeight());
+			
+			//Draw player name
+			g.setColor(Color.YELLOW);
+			g.setFont(new Font(Font.DIALOG, Font.BOLD, 28));
+			g.drawString(dialogPlayer.playerName1, 100, 50); //Ve ten Player 01
+			g.drawString(dialogPlayer.playerName2, 330, 50); // Draw Player 02
 
 			// draw the scores
 			g.setColor(Color.GREEN);// Chinh ghi diem so la mau xanh la
 			g.setFont(new Font(Font.DIALOG, Font.BOLD, 36));
 			g.drawString(String.valueOf(playerOneScore), 120, 100); // Player 1 // Chinh lai toa do ghi diem 100 thanh 120
-							//sua lai										// score
+
 			g.drawString(String.valueOf(playerTwoScore), 350, 100); // Player 2 // Sua playerOneScore thanh playerTwoScore
 																	// score    // Va chinh lai toa do ghi diem 400 thanh 350
 
@@ -303,9 +270,9 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 			// Draw the winner name
 			g.setFont(new Font(Font.DIALOG, Font.BOLD, 36));
 			if (playerOneScore > playerTwoScore) {
-				g.drawString("Player 1 Wins!", 120, 200);// Chinh toa do hien "Player 1 Wins!" chinh giua
+				g.drawString(dialogPlayer.playerName1 + " Wins", 120, 200);// Chinh toa do hien "Player 1 Wins!" chinh giua
 			} else {
-				g.drawString("Player 2 Wins!", 120, 200);// Chinh toa do hien "Player 2 Wins!" chinh giua
+				g.drawString(dialogPlayer.playerName2 + " Wins", 120, 200);// Chinh toa do hien "Player 2 Wins!" chinh giua
 			}
 
 			// Draw Restart message
@@ -322,8 +289,15 @@ public class PongPanel extends JPanel implements ActionListener, KeyListener {
 	public void keyPressed(KeyEvent e) {
 		if (showTitleScreen) {
 			if (e.getKeyChar() == 'p') {
-				showTitleScreen = false;
-				playing = true;
+				dialogPlayer.setVisible(true);
+				dialogPlayer.setLocationRelativeTo(null);
+				if(dialogPlayer.dialogResult != MyDialogResult.YES ){
+					showTitleScreen = true;
+					playing = false;
+				} else {
+					showTitleScreen = false;
+					playing = true;
+				}
 			}
 		} else if (playing) {
 			if (e.getKeyCode() == KeyEvent.VK_UP) {
